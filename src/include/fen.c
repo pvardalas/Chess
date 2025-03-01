@@ -63,7 +63,9 @@ void parse_fen(const char *fen, FEN *position) {
     position->halfMoveClock = atoi(token);
     // Full move number
     token = strtok(NULL, " ");
+    if (token != NULL)
     position->fullMoveNum = atoi(token);
+    printf("test2\n");
 
     free(fenCopy);
 }

@@ -99,12 +99,18 @@ int move_idx(char * moves, char * move) {
     return -1;  // Move not found
 }
 void print_fen_board(FEN fen) {
+
+    printf("%s is playing\tHalf move clock: %d\tFull move clock: %d\n",(fen.turn == 'w') ? "White" : "Black", fen.halfMoveClock, fen.fullMoveNum);
+    printf("\t═════◈═════════◈══════ ✮❁•° ♛ °•❁✮ ══════◈══════════◈═════\n");
     for (int i = 0; i < 8; i++) {
+        printf("%d\t", 8-i);
         for (int j = 0; j < 8; j++) {
             printf("%c\t", fen.board[i][j]);
         }
         printf("\n");
     }
+    printf("\t═════◈═════════◈══════◈═════════════◈═════◈══════════◈═════\n");
+    printf("\ta\tb\tc\td\te\tf\tg\th\n");
 
 }
 void print_bit(U64 bb) {
@@ -168,12 +174,47 @@ int choose_move(char *fen, char *moves, int timeout) {
 }
 
 
-int main(int argc, char *argv[]) {
-    if (argc != 4) {
-        fprintf(stderr, "Usage: ./%s <fen> <moves> <timeout>\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
+int main() {
+    // if (argc != 4) {
+    //     fprintf(stderr, "Usage: ./%s <fen> <moves> <timeout>\n", argv[0]);
+    //     exit(EXIT_FAILURE);
+    // }
     initialize_board();
     initNonSlidingMoves(); // Initializing the precomputed masks for every piece for later move generation
-    return choose_move(argv[1], argv[2], atoi(argv[3]));
+    FEN game; // Current game state
+    parse_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq- 0 1", &game); // Initializing the game
+    printf("Test\n");
+    char * next_move = malloc(6 * sizeof(char));
+    int n;
+    char ** possible_moves = NULL;
+    int possible_moves_count, flag = 0;
+    while (1) {
+        printf("\033[1;1H\033[2J");
+        print_fen_board(game);
+jump:
+        printf("Next move: ");
+        while((n = scanf("%5s", next_move)) != 1 && n != -1) {
+            printf("Provide a valid move!\n");
+            goto jump;
+        }
+        if (n == -1) {
+            printf("Terminating!\n");
+            break;
+            exit(EXIT_SUCCESS);
+        }
+        find_moves(game, &possible_moves, &possible_moves_count);
+        flag = 0;
+        for (int i = 0; i < possible_moves_count; i++) {
+            if (strcmp(next_move, possible_moves[i]) == 0) {
+                flag = 1;
+                break;
+            }
+        }
+        if (!flag) {
+            printf("Provide a valid move!\n");
+            goto jump;
+        }
+        game = new_fen(game, next_move);
+
+    }
 }
