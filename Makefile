@@ -62,7 +62,7 @@ $(TARGET): $(OBJECTS)
 all: $(TARGET)
 
 ## Optional target: build the web target
-$(WEB_TARGET): $(SOURCES) $(INCDIR)
+$(WEB_TARGET): $(SOURCES) $(SOURCES_INC)
 	emcc $(EMCC_FLAGS) $^ -o $@
 
 ## Start python3 web server to run the website for the folder web
