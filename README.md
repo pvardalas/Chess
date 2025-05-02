@@ -3,8 +3,12 @@
 make main
 ```
 
-## Wanna see it run on a browser?
-
+## Wanna see it run on a browser? Currently facing some issues :/
+## You can still try it out on terminal. After compiling just type:
+```sh
+./main
+```
+### For when the browser version comes back up:
 First compile it to webassembly - requires the emscripten compiler (`apt install emscripten` if you don't have it) and then run:
 
 ```sh
