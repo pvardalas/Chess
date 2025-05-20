@@ -1,29 +1,8 @@
 # Setup:
 ```sh
 make main
+make run
 ```
-
-## Wanna see it run on a browser? Currently facing some issues :/
-## You can still try it out on terminal. After compiling just type:
-```sh
-./main
-```
-### For when the browser version comes back up:
-First compile it to webassembly - requires the emscripten compiler (`apt install emscripten` if you don't have it) and then run:
-
-```sh
-make WEB_TARGET=web/engine.wasm web/engine.wasm
-```
-
-Finally, run the website (assumes you have python3 installed):
-
-```sh
-$ make run
-python3 -m http.server --directory web
-Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
-```
-
-You should now be able to interact with your engine on http://0.0.0.0:8000/.
 
 # Project Explaination:
 
@@ -56,8 +35,6 @@ U64 getGlobalVar(char color) {
     }
 }
 ```
-
-# Το engine δεν είναι τελειωμένο. Έχει γίνει αρκετή δουλειά, παρ'όλα αυτά το project θα ολοκληρωθεί εκπρόθεσμα. Για την ώρα δεν είναι απόλυτα λειτουργικό.
 
 
 ## fen.h
@@ -236,7 +213,7 @@ Here all the other filles work together to create the chess engine.
 #include <stdlib.h> 
 #include <string.h> 
 #include "include/Headers/fen.h"
- #include "include/Headers/find_moves.h" 
+#include "include/Headers/find_moves.h" 
 #include "include/Headers/boardmap.h" 
 #include "include/Headers/find_best_move.h"
 ```
@@ -264,14 +241,6 @@ This is a helper function that prints the board as an 8×8 grid, displaying each
 ### `print_bit` function
 Prints a bitboard representation (using a 64-bit unsigned integer). It checks each bit (using a macro GET_BIT) and prints a "1" if the bit is set or a dot otherwise
 
-#
-### `choose_move` function
-This is the core function of the programs decision making.
-
-#
-### `main` function
-
-First we have to check if there are exactly 3 arguments given (FEN string, moves string, and timeout value). Then it calls the functions `initialize_board` , `initNonSlidingMoves`and `choose_move` to connect with the other parts of the program and function.
 
 
 

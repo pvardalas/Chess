@@ -124,54 +124,8 @@ void print_bit(U64 bb) {
     }    
 }
 
-int choose_move(char *fen, char *moves, int timeout) {
-    if (!fen || !moves) {
-        fprintf(stderr, "Error getting input\n");
-        exit(EXIT_FAILURE);
-    }
-    FEN board;
-    parse_fen(fen, &board);
-    int moves_count = 0;
-    char * ptr = moves;
-    while (*ptr) {
-        if (*ptr == ' ') moves_count++;
-        ptr++;
-    }
-    moves_count++;
-    char ** moves_arr = malloc(moves_count * sizeof(char *));
-    for (int i = 0; i < moves_count; i++) moves_arr[i] = malloc(6 * sizeof(char));
-
-    int j = 0, k;
-    for (int i = 0; i < moves_count; i++) {
-        k = 0;
-        while (moves[j] != ' ' && moves[j] != '\0') {
-            moves_arr[i][k] = moves[j];
-            k++; j++;
-        }
-        moves_arr[i][k] = '\0';
-        if (moves[j] == ' ') j++;
-    }
-    char *best_move = find_best_move(board, moves_arr, moves_count, timeout);
-    int index;
-    if (best_move) {
-        printf("Best move: %s\n", best_move);
-        index = move_idx(moves, best_move);
-        printf("%d\n", index);
-        free(best_move);
-    } else {
-        printf("No valid move found\n");
-    }
     
 
-    // free array
-    for (int i = 0; i < moves_count; i++)
-        free(moves_arr[i]);
-    free(moves_arr);
-
-    // return 1;
-    return index+1;
-    
-}
 
 
 int main() {

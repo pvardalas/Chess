@@ -33,15 +33,6 @@ OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(BINDIR)/%.o) \
 # The name of the binary (executable) file
 TARGET ?= main
 
-## Optional target: useful for running the website
-WEB_TARGET ?= main.wasm
-
-## Emscripten compiler
-EMCC = emcc
-
-## Emscripten flags
-EMCC_FLAGS = -s WASM=1 -s EXPORTED_FUNCTIONS='["_choose_move"]' --no-entry -O3
-
 ## Create the build directory if it doesn't exist
 $(BINDIR):
 	mkdir -p $(BINDIR)
@@ -61,16 +52,10 @@ $(TARGET): $(OBJECTS)
 ## Only build the binary by default
 all: $(TARGET)
 
-## Optional target: build the web target
-$(WEB_TARGET): $(SOURCES) $(SOURCES_INC)
-	emcc $(EMCC_FLAGS) $^ -o $@
-
-## Start python3 web server to run the website for the folder web
-.PHONY: run
-run: $(WEB_TARGET)
-	python3 -m http.server --directory web
-
 ## Clean up the build directory
 .PHONY: clean
 clean:
 	rm -rf $(BINDIR) $(TARGET) $(WEB_TARGET)
+.PHONY: run
+run:
+	./main
