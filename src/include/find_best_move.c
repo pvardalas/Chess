@@ -764,7 +764,7 @@ long long minimax(Node *node, int depth, char currentPlayer, long long alpha, lo
 Move findBestMove(Node *root, int depth, char currentPlayer)
 {
     if (root->childcount == 0)
-        return (Move){-1, -1, -1, -1 , 'A' , false , '\0'}; //--------------- ΜΠΡΟ ΒΟΗΘΕΙΑΑΑΑΑΑΑ
+        return (Move){-1, -1, -1, -1 , 'A' , false , '\0'};
 
     long long bestEval = currentPlayer == 'w' ? LLONG_MIN : LLONG_MAX;
     int bestIndex = 0;
